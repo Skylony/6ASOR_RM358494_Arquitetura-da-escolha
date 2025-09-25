@@ -84,7 +84,7 @@ Quando o produto chega, percebe que **não serve**. Ela devolve, se frustra e ev
 ---
 
 ## 🏗️ Arquitetura Freeform (visão inicial)
-<img src="content/FreeForm.png">
+<img src="content/FreeForm.jpg">
 
 ---
 
@@ -136,7 +136,12 @@ Quando o produto chega, percebe que **não serve**. Ela devolve, se frustra e ev
 ## 📊 Diagramas C4
 
 ### Contexto
-```plantuml
-test
-```
+<img src="content/context.jpg">
+
+### Container
+<img src="content/container.jpg">
+
+### Componente
+<img src="content/component.jpg">
+
 
