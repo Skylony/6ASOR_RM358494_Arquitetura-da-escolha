@@ -1,0 +1,29 @@
+@startuml context
+ 
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+ 
+LAYOUT_WITH_LEGEND()
+
+title System Context Diagram - E-Commerce Moda
+
+Person(cliente, "Cliente", "Usuário final que acessa pelo site ou app para comprar produtos de moda")
+Person(atendente, "Atendente", "Pessoa de suporte que ajuda em dúvidas, trocas e devoluções")
+Person(equipe, "Equipe de Catálogo", "Equipe interna que mantém catálogo e medidas atualizadas")
+Person(dpo, "DPO", "Encarregado de Proteção de Dados (LGPD) que garante consentimento e privacidade")
+
+System_Boundary(ecom, "Plataforma de E-Commerce") {
+  System(web, "Web/App E-Commerce", "Canal digital principal de navegação e compra")
+}
+
+System_Ext(pay, "Gateway de Pagamentos", "Serviço externo para autorizar e capturar pagamentos")
+System_Ext(ship, "Transportadora/Tracking", "Parceiro externo que entrega pedidos e atualiza status")
+
+Rel(cliente, web, "Compra e consulta produtos")
+Rel(atendente, web, "Suporte e acesso a informações de pedidos")
+Rel(equipe, web, "Atualiza catálogo de produtos e estoque")
+Rel(dpo, web, "Garante conformidade LGPD nos fluxos de dados")
+Rel(web, pay, "Autorização e captura de pagamentos")
+Rel(web, ship, "Cotação de frete, ETA e tracking")
+@enduml
