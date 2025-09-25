@@ -84,7 +84,7 @@ Quando o produto chega, percebe que **não serve**. Ela devolve, se frustra e ev
 ---
 
 ## 🏗️ Arquitetura Freeform (visão inicial)
-IMG
+<img src="content/FreeForm.png">
 
 ---
 
