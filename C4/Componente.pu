@@ -1,0 +1,32 @@
+@startuml context
+ 
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Component Diagram - API Provador ML
+
+Container(api_ml, "API Provador ML", "Python/Go", "Serviço que recomenda tamanho/ajuste usando ML")
+
+Component(ctrl, "Controller REST", "Recebe requisições do BFF e valida payload")
+Component(cons, "Consent Validator", "Verifica se o cliente autorizou uso de dados")
+Component(orq, "Inference Orchestrator", "Coordena execução síncrona ou assíncrona de inferência")
+Component(worker, "Queue Worker", "Processa jobs pesados de inferência em background")
+Component(store, "Ephemeral Store", "Armazena imagens temporariamente de forma criptografada")
+Component(tele, "Telemetry Agent", "Envia métricas e logs da API para observabilidade")
+Component(mlops, "MLOps Adapter", "Integração com modelo em produção e feature store")
+
+Container_Ext(bff, "BFF", "Node/Java", "Chama a API para obter recomendação")
+Container_Ext(datalake, "Data Lake/Feature Store", "Cloud", "Recebe feedbacks e dados para treinar modelos")
+
+Rel(bff, ctrl, "POST /inferir (dados do usuário)")
+Rel(ctrl, cons, "Verifica consentimento")
+Rel(cons, store, "Consulta token de consentimento")
+Rel(ctrl, orq, "Orquestra requisição de inferência")
+Rel(orq, worker, "Enfileira jobs assíncronos")
+Rel(worker, mlops, "Carrega modelo e features para inferência")
+Rel(mlops, datalake, "RW de features e feedbacks")
+Rel(tele, datalake, "Envia métricas e monitoramento")
+@enduml
