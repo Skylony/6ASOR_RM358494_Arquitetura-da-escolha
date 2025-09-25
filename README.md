@@ -138,10 +138,17 @@ Quando o produto chega, percebe que **não serve**. Ela devolve, se frustra e ev
 ### Contexto
 <img src="content/context.jpg">
 
+[Código](https://github.com/Skylony/6ASOR_RM358494_Arquitetura-da-escolha/blob/main/C4/Contexto.pu)
+
 ### Container
 <img src="content/container.jpg">
 
+[Código](https://github.com/Skylony/6ASOR_RM358494_Arquitetura-da-escolha/blob/main/C4/Container.pu)
+
 ### Componente
 <img src="content/component.jpg">
+
+[Código](https://github.com/Skylony/6ASOR_RM358494_Arquitetura-da-escolha/blob/main/C4/Componente.pu)
+
 
 
