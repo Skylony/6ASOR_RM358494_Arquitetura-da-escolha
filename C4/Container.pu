@@ -1,0 +1,50 @@
+@startuml context
+ 
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+ 
+LAYOUT_WITH_LEGEND()
+
+title Container Diagram - E-Commerce Moda
+
+Person(cliente, "Cliente", "Usuário final que acessa a plataforma digital")
+Person(atendente, "Atendente", "Suporte de atendimento ao cliente")
+Person(equipe, "Equipe de Catálogo", "Equipe interna que atualiza produtos e medidas")
+Person(dpo, "DPO", "Encarregado de proteção de dados que supervisiona consentimento")
+
+System_Boundary(ecom, "Plataforma de E-Commerce") {
+  Container(spa, "SPA Web/App", "React/Angular/Vue", "Interface de navegação do cliente")
+  Container(bff, "BFF", "Node/Java", "Agregador de APIs, aplica A/B testing e normaliza eventos")
+  Container(api_cat, "API Catálogo", "Java/Spring", "Gerencia produtos, variações e grade de estoque")
+  Container(api_ml, "API Provador ML", "Python/Go", "Recomenda tamanho/ajuste baseado em fotos/medidas")
+  Container(api_chk, "API Checkout", "Java/Spring", "Orquestra carrinho, cálculo de frete e pedidos")
+  ContainerDb(db_cat, "DB Catálogo/Grade", "SQL/NoSQL", "Base de dados com produtos e disponibilidade")
+  Container(queue, "Event Bus", "Kafka/PubSub", "Transmite eventos de catálogo e pedidos")
+  Container(consent, "Consent/Privacy", "Service", "Gerencia consentimento, retenção e anonimização")
+  Container(obs, "Observabilidade", "ELK/OTel", "Coleta métricas, logs e traces de toda a plataforma")
+  Container(datalake, "Data Lake/ML Ops", "Cloud", "Armazena dados, feedbacks e treina modelos ML")
+}
+
+Container_Ext(ext_pay, "Gateway Pagamentos", "SaaS", "Serviço externo de autorização de pagamentos")
+Container_Ext(ext_ship, "Transportadora", "SaaS", "Serviço externo de logística e tracking")
+
+Rel(cliente, spa, "Navega e compra")
+Rel(atendente, bff, "Consulta pedidos")
+Rel(equipe, api_cat, "Atualiza catálogo e grade")
+Rel(dpo, consent, "Monitora consentimento LGPD")
+
+Rel(spa, bff, "REST/GraphQL")
+Rel(bff, api_cat, "Consulta produtos e grade")
+Rel(bff, api_ml, "Envia fotos/medidas para inferência")
+Rel(bff, api_chk, "Finaliza checkout e pedido")
+Rel(api_chk, ext_pay, "Autorização de pagamento")
+Rel(api_chk, ext_ship, "Cotação e tracking de entrega")
+Rel(api_cat, db_cat, "CRUD de produtos e grade")
+Rel(api_ml, datalake, "Armazena feedback e features")
+Rel(api_cat, queue, "Publica eventos de catálogo")
+Rel(api_chk, queue, "Publica eventos de pedido")
+Rel(queue, datalake, "Ingestão de eventos")
+Rel(bff, consent, "Valida consentimento do usuário")
+Rel(bff, obs, "Logs e métricas")
+@enduml
